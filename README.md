@@ -5,3 +5,10 @@
 請盡量使用上課教的 GUI 工具或 git 指令繳交作業  
 若使用 GitHub 網頁進行 commit 會依次數扣分  
 **繳交上課範例、或是繳交修改過的上課範例 (改顏色、換圖片) 視同零分**
+
+# 版權
+This system is for educational not for commercial
+
+All picture copyright belong to Maplystory
+
+if have any problem. please tell me and I will del it quickly
