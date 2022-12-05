@@ -1,0 +1,273 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+body {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.5) 100%, rgba(255, 255, 255, 0.5) 100%), url(./maxresdefault.jpg) no-repeat center/cover;
+}
+
+/* 遊戲主要區域 */
+#main {
+    padding-top: 50px;
+    cursor: url(./cursor.png)50 50, auto;
+}
+
+#container {
+    margin: auto;
+    width: 90vw;
+    height: 90vh;
+    background: url(./maxresdefault.jpg) no-repeat center/cover;
+}
+
+@font-face {
+    font-family: 'clock';
+    src: url(./cursed-timer-ulil-font/CursedTimerUlil-Aznm.ttf);
+}
+
+/* 時間的 box */
+.time-frame {
+    width: 250px;
+    height: 80px;
+    border: 1px solid white;
+    border-radius: 10px;
+    font-family: 'clock';
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 80%, rgba(255, 255, 255, 0.1) 100%);
+    margin: 15px auto 0px;
+}
+
+.time-text {
+    color: white;
+    text-shadow: 0 0 10px rgb(0, 0, 0);
+    float: left;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
+.time-inner-frame {
+    width: 150px;
+    height: 65px;
+    border-radius: 10px;
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 90%, #202b3f 100%);
+    float: right;
+    margin-right: 10px;
+    margin-top: 5px;
+    text-align: center;
+    line-height: 70px;
+    border: 2px groove black;
+}
+
+.time-inner-frame .seconds {
+    font-size: 3rem;
+    background: linear-gradient(to top, #fb0, #fc4, #fffff2);
+    background: -webkit-linear-gradient(to top, #fb0, #fc4, #fffff2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.time-inner-frame .small-time-text {
+    color: white;
+}
+
+/* 分數的 box */
+.score-frame {
+    width: 220px;
+    height: 50px;
+    border: 1px solid white;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    line-height: 35px;
+    margin: auto;
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 80%, #7d7f7e 100%);
+}
+
+.score-text {
+    color: white;
+    text-shadow: 0 0 10px rgb(0, 0, 0);
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.score-inner-frame {
+    width: 130px;
+    height: 40px;
+    border-radius: 10px;
+    background-image: linear-gradient(0deg, rgba(31, 39, 48, 0.2) 0%, rgba(31, 39, 48, 0.2) 90%, #7d7f7e 100%);
+    float: right;
+    margin-right: 10px;
+    margin-top: 2.5px;
+    text-align: right;
+    border: 2px groove rgba(31, 39, 48, 0.2)
+}
+
+.score-inner-frame .score {
+    font-size: 2rem;
+    color: white;
+    padding-right: 5px;
+}
+
+/* 子彈的 box */
+.bullet-frame {
+    width: 200px;
+    height: 80px;
+    border: 1px solid white;
+    border-radius: 10px;
+    font-family: 'clock';
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 80%, rgba(255, 255, 255, 0.1) 100%);
+    margin: 15px auto 0px;
+    position: absolute;
+    bottom: 7%;
+    right: 7%;
+}
+
+.bullet-img {
+    color: white;
+    text-shadow: 0 0 10px rgb(0, 0, 0);
+    float: left;
+    margin-top: 3px;
+    margin-left: 5px;
+}
+
+.bullet-inner-frame {
+    width: 100px;
+    height: 65px;
+    border-radius: 10px;
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 90%, #202b3f 100%);
+    float: right;
+    margin-right: 10px;
+    margin-top: 5px;
+    text-align: right;
+    line-height: 70px;
+    border: 2px groove black;
+}
+
+.bullet-inner-frame .bullet {
+    font-size: 3rem;
+    background: linear-gradient(to top, #fb0, #fc4, #fffff2);
+    background: -webkit-linear-gradient(to top, #fb0, #fc4, #fffff2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.high-score-frame {
+    width: 220px;
+    height: 100px;
+    border: 1px solid white;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    line-height: 35px;
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 80%, #7d7f7e 100%);
+    position: absolute;
+}
+
+.high-score-text {
+    color: white;
+    text-shadow: 0 0 10px rgb(0, 0, 0);
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.high-score-inner-frame {
+    width: 130px;
+    height: 40px;
+    border-radius: 10px;
+    background-image: linear-gradient(0deg, rgba(31, 39, 48, 0.2) 0%, rgba(31, 39, 48, 0.2) 90%, #7d7f7e 100%);
+    float: right;
+    margin-right: 10px;
+    margin-top: 2.5px;
+    text-align: right;
+    border: 2px groove rgba(31, 39, 48, 0.2);
+}
+
+/* 紀錄最高分的 box */
+#high-score-player,
+#high-score {
+    color: yellow;
+    padding-right: 5px;
+}
+
+#high-score-player {
+    font-size: 1.2rem;
+}
+
+#high-score {
+    font-size: 1.5rem;
+}
+
+/* 規則的 box */
+.rule {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 2rem;
+    font-family: 'clock';
+    color: yellow;
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 70%;
+    margin: 200px auto;
+    padding: 1% 0 5% 0;
+}
+
+.gugu-rule {
+    width: 17%;
+}
+
+.gugu-rule img {
+    width: 80%;
+}
+
+.gugu-bad-rule,
+.barogu-rule {
+    color: red;
+}
+
+.barogu-rule img {
+    width: 70%;
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 開始按鈕 */
+#start {
+    width: 80px;
+    height: 50px;
+    border: 1px solid white;
+    border-radius: 10px;
+    font-family: 'clock';
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 80%, rgba(255, 255, 255, 0.1) 100%);
+    margin: 15px auto 0px;
+    font-size: 1rem;
+    color: white;
+    position: absolute;
+    top: 68%;
+    left: 47%;
+}
+
+/* 怪物樣式 */
+.barogu,
+.gugu-fly {
+    position: absolute;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
+.gugu,
+.gugu-bad {
+    position: absolute;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    bottom: 100px;
+    width: 8%;
+}

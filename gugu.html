@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./gugu.css">
+    <title>楓之谷射擊遊戲</title>
+</head>
+
+<body>
+    <audio src="./maple.mp3" class="music" loop autoplay></audio>
+    <!-- 遊戲主區域 -->
+    <div id="main">
+        <div id="container">
+            <!-- 最高分區塊 -->
+            <div class="high-score-frame">
+                <div class="high-score-text">
+                    玩家：
+                </div>
+                <div class="high-score-inner-frame">
+                    <span id="high-score-player"></span>
+                </div>
+                <br>
+                <div class=" high-score-text">
+                    分數：
+                </div>
+                <div class="high-score-inner-frame">
+                    <span id="high-score">0</span>
+                </div>
+            </div>
+
+            <!-- 時間區塊 -->
+            <div class="time-frame">
+                <div class="time-text">
+                    剩餘時間:
+                </div>
+                <div class="time-inner-frame">
+                    <span class="seconds">100</span>
+                    <span class="small-time-text">秒</span>
+                </div>
+            </div>
+
+            <!-- 分數區塊 -->
+            <div class="score-frame">
+                <div class="score-text">
+                    SCORE
+                </div>
+                <div class="score-inner-frame">
+                    <span class="score">0</span>
+                </div>
+            </div>
+
+            <!-- 子彈區塊 -->
+            <div>
+                <div class="bullet-frame">
+                    <div class="bullet-img">
+                        <img src="./子彈.png" alt="">
+                    </div>
+                    <div class="bullet-inner-frame">
+                        <span class="bullet">200</span>
+                    </div>
+                </div>
+            </div>
+            <button id="start">開始遊戲</button>
+
+            <!-- 規則區塊 -->
+            <div class="rule">
+                <div class="gugu-rule flex">
+                    <p>+50</p>
+                    <img src="./gugu.gif" alt="">
+                </div>
+                <div class="gugu-fly-rule flex">
+                    <p>+100</p>
+                    <img src="./flugugu.gif" alt="">
+                </div>
+                <div class="gugu-bad-rule flex">
+                    <p>-50</p>
+                    <img src="./peoplegugu.gif" alt="">
+                </div>
+                <div class="barogu-rule flex">
+                    <p>-100</p>
+                    <img src="./barogu.gif" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./jquery-3.6.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // 錯誤用法，但不用 JS 會出錯
+        const music = document.querySelector('.music');
+        let countDown = 0;
+        let countBullet = 0;
+        let countScore = 0;
+        // 從 localStorage 抓最高分
+        const highScore = localStorage.mapleGame ? JSON.parse(localStorage.mapleGame) : { name: '', score: 0 }
+        $('#high-score-player').text(highScore.name);
+        $('#high-score').text(highScore.score);
+
+        // 水平(好)怪物移動方式
+        function horizon(monster) {
+            const leftNumber = Math.round(Math.random() * 1550 + 100)
+            const left = leftNumber + 'px';
+            if (monster.length > 0) {
+                const nowLeft = monster.css('left').slice(0, -2);
+                if (nowLeft > leftNumber) {
+                    monster.css('transform', 'scaleX(1)');
+                }
+                else {
+                    monster.css('transform', 'scaleX(-1)');
+                }
+            }
+            monster.stop().animate({ left: left }, 3000, function () {
+                if ($('#start').attr('disabled')) {
+                    horizon(monster);
+                }
+            })
+        }
+
+        // 水平(壞)怪物移動方式
+        function horizonBad(monster) {
+            const leftNumber = Math.round(Math.random() * 1550 + 100)
+            const left = leftNumber + 'px';
+            if (monster.length > 0) {
+                const nowLeft = monster.css('left').slice(0, -2);
+                if (nowLeft > leftNumber) {
+                    monster.css('transform', 'scaleX(1)');
+                }
+                else {
+                    monster.css('transform', 'scaleX(-1)');
+                }
+            }
+            monster.stop().animate({ left: left }, 1500, function () {
+                if ($('#start').attr('disabled')) {
+                    horizonBad(monster);
+                }
+            })
+        }
+
+        // 飛行(好)怪物移動方式
+        function fly(monster) {
+            const leftNumber = Math.round(Math.random() * 1600 + 100);
+            const left = leftNumber + 'px';
+            const topNumber = Math.round(Math.random() * 650 + 50);
+            const top = topNumber + 'px';
+            if (monster.length > 0) {
+                const nowLeft = monster.css('left').slice(0, -2);
+                if (nowLeft > leftNumber) {
+                    monster.css('transform', 'scaleX(1)');
+                }
+                else {
+                    monster.css('transform', 'scaleX(-1)');
+                }
+            }
+            monster.stop().animate({ left: left, top: top }, 2000, function () {
+                if ($('#start').attr('disabled')) {
+                    fly(monster);
+                }
+            })
+        }
+
+        // 飛行(壞)怪物移動方式
+        function flyBad(monster) {
+            const leftNumber = Math.round(Math.random() * 1570 + 30);
+            const left = leftNumber + 'px';
+            const topNumber = Math.round(Math.random() * 620 - 100);
+            const top = topNumber + 'px';
+            if (monster.length > 0) {
+                const nowLeft = monster.css('left').slice(0, -2);
+                if (nowLeft > leftNumber) {
+                    monster.css('transform', 'scaleX(1)');
+                }
+                else {
+                    monster.css('transform', 'scaleX(-1)');
+                }
+            }
+            monster.stop().animate({ left: left, top: top }, 1400, function () {
+                if ($('#start').attr('disabled')) {
+                    flyBad(monster);
+                }
+            })
+        }
+
+        // 開始遊戲
+        $('#start').click(function () {
+            // 刷新設定
+            $(this).attr('disabled', true);
+            countDown = 100;
+            countBullet = 200;
+            countScore = 0;
+            $('.seconds').text(countDown);
+            $('.bullet').text(countBullet);
+            $('.score').text(countScore);
+            $('.rule').css('display', 'none');
+            $('#start').css('display', 'none');
+            if (music.paused) music.play()
+
+            // 計時開始
+            const timer = setInterval(() => {
+                countDown--;
+                $('.seconds').text(countDown);
+                const random = Math.round(Math.random() * 5)
+
+                // 水平(好)怪物出生設定
+                if ($('.gugu').length < 15) {
+                    const top = Math.round(Math.random() * 35 + 30) + '%';
+                    const left = Math.round(Math.random() * 35 + 30) + '%';
+                    const monster = $(`<img src="./gugu.gif" class="monster gugu" style="left:${left}">`)
+                    $('#container').append(monster);
+                    horizon(monster);
+                    // 被點擊就切換圖片
+                    monster.on('click', function () {
+                        if ($(this).attr('src') != './044.gif') {
+                            countScore += 50;
+                            $('.score').text(countScore);
+                            $(this).attr('src', './044.gif')
+                        }
+                        setTimeout(() => {
+                            $(this).remove();
+                        }, 600)
+                    })
+                }
+
+                // 水平(壞)怪物出生設定
+                if (random > 3 && $('.gugu-bad').length < 5) {
+                    const top = Math.round(Math.random() * 35 + 30) + '%';
+                    const left = Math.round(Math.random() * 35 + 30) + '%';
+                    const monster = $(`<img src="./peoplegugu.gif" class="monster gugu-bad" style="left:${left}">`)
+                    $('#container').append(monster);
+                    horizonBad(monster);
+                    monster.on('click', function () {
+                        if ($(this).attr('src') != './044.gif') {
+                            if (countScore > 50) {
+                                countScore -= 50;
+                            }
+                            $('.score').text(countScore);
+                            $(this).attr('src', './044.gif')
+                        }
+                        setTimeout(() => {
+                            $(this).remove();
+                        }, 600)
+                    })
+                }
+
+                // 飛行(好)怪物出生設定
+                if ($('.gugu-fly').length < 10) {
+                    const top = Math.round(Math.random() * 35 + 30) + '%';
+                    const left = Math.round(Math.random() * 35 + 30) + '%';
+                    const monster = $(`<img src="./flugugu.gif" class="monster gugu-fly" style="top:${top}; left:${left}">`)
+                    $('#container').append(monster);
+                    fly(monster);
+                    monster.on('click', function () {
+                        if ($(this).attr('src') != './044.gif') {
+                            countScore += 100;
+                            $('.score').text(countScore);
+                            $(this).attr('src', './044.gif')
+                            $(this).css('width', '10%')
+                        }
+                        setTimeout(() => {
+                            $(this).remove();
+                        }, 600)
+                    })
+                }
+
+                // 飛行(壞)怪物出生設定
+                if (random > 3 && $('.barogu').length < 5) {
+                    const top = Math.round(Math.random() * 35 + 30) + '%';
+                    const left = Math.round(Math.random() * 35 + 30) + '%';
+                    const monster = $(`<img src="./barogu.gif" class="monster barogu" style="top:${top}; left:${left}">`)
+                    $('#container').append(monster);
+                    flyBad(monster);
+                    monster.on('click', function () {
+                        if ($(this).attr('src') != './044.gif') {
+                            if (countScore > 100) {
+                                countScore -= 100;
+                            }
+                            $('.score').text(countScore);
+                            $(this).attr('src', './044.gif')
+                        }
+                        setTimeout(() => {
+                            $(this).remove();
+                        }, 600)
+                    })
+                }
+
+                // 結束遊戲
+                if (countDown === 0 || countBullet < 1) {
+                    // 清除設定
+                    clearInterval(timer);
+                    $('.skill-icon').remove();
+                    $('.monster').remove();
+                    $('#start').attr('disabled', false);
+                    $('.rule').css('display', 'flex');
+                    $('#start').css('display', 'block');
+                    if (music.paused) music.play()
+                    else music.pause()
+                    // 提示訊息
+                    if (countScore > highScore.score) {
+                        Swal.fire({
+                            imageUrl: './congrat.gif',
+                            title: '時間到',
+                            text: `你是最高分，得到了${countScore}分`,
+                            inputPlaceholder: '輸入你的名字',
+                            input: 'text',
+                            inputAttributes: {
+                                maxlength: 5,
+                                required: true
+                            },
+                            validationMessage: '名稱必填',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then(result => {
+                            highScore.score = countScore;
+                            highScore.name = result.value;
+                            $('#high-score-player').text(highScore.name);
+                            $('#high-score').text(highScore.score);
+                            localStorage.setItem('mapleGame', JSON.stringify(highScore));
+                        })
+                    } else {
+                        Swal.fire({
+                            imageUrl: 'congrat.gif',
+                            title: '時間到',
+                            text: `你得到${countScore}分`
+                        })
+                    }
+                }
+            }, 1000)
+        })
+
+        // 子彈計算
+        $('#container').mousedown(() => {
+            if ($('#start').attr('disabled') && countBullet > 0) {
+                countBullet--;
+                $('.bullet').text(countBullet);
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+<!-- 
+    4.紀錄最高分
+-->
